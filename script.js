@@ -30,10 +30,13 @@ $('button').on('click', function (event) {
 database.ref('/emp').on('child_added', function (snapshot) {
     var row = $('<tr>');
 
+    var currentDate = moment()
+
     var name = snapshot.val().name;
     var role = snapshot.val().role;
     var start = snapshot.val().start;
-    var months = 0;
+    var startMoment = moment(start, "YYYY/MM/DD");
+    var months = moment().diff(startMoment, 'Month');
     var rate = snapshot.val().rate;
     var totalB = months * rate;
 
@@ -43,8 +46,8 @@ database.ref('/emp').on('child_added', function (snapshot) {
     row.append($('<td>' + role + '</td>'));
     row.append($('<td>' + start + '</td>'));
     row.append($('<td>' + months + '</td>'))
-    row.append($('<td>' + rate + '</td>'));
-    row.append($('<td>' + totalB + '</td>'))
+    row.append($('<td>$' + rate + '</td>'));
+    row.append($('<td>$' + totalB + '</td>'))
     // row.append(col);
 
     $('#tableBody').append(row);
